@@ -13,7 +13,7 @@ from torchvision.utils import make_grid
 import matplotlib.pyplot as plt
 
 # helper function to view the image and its label 
-def show_sample(img, label):
+def show_sample(dataset, img, label):
     print("Label:", dataset.classes[label], "(Class No: "+ str(label) + ")")
     plt.imshow(img.permute(1, 2, 0))
 
@@ -56,7 +56,7 @@ def epoch_end(self, epoch, result):
         epoch+1, result['train_loss'], result['val_loss'], result['val_acc']))
 
 class ResNet(ImageClassificationBase):
-    def __init__(self):
+    def __init__(self, dataset):
         super().__init__()
         # Use a pretrained model
         self.network = models.resnet50(pretrained=True)
@@ -141,7 +141,7 @@ def plot_losses(history):
     plt.title('Loss vs. No. of epochs');
 
 # Visualizing predictions 
-def predict_image(img, model):
+def predict_image(dataset, img, model):
     # Convert to a batch of 1
     xb = to_device(img.unsqueeze(0), device)
     # Get predictions from model

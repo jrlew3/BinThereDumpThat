@@ -1,10 +1,16 @@
 from image_model import * 
 from PIL import Image
 from pathlib import Path
+import enum
+from prediction import * 
 
-# apply transformations to the data set and import it 
+# apply transformations to the data set and import it
+data_dir  = 'kaggle/Garbage classification/Garbage classification'
 transformations = transforms.Compose([transforms.Resize((256, 256)), transforms.ToTensor()])
 dataset = ImageFolder(data_dir, transform = transformations)
+
+classes = os.listdir(data_dir)
+print(classes)
 
 # loading and splitting data 
 random_seed = 42
@@ -20,11 +26,9 @@ device = get_default_device()
 
 train_dl = DeviceDataLoader(train_dl, device)
 val_dl = DeviceDataLoader(val_dl, device)
-to_device(model, device)
 
-model = ResNet()
-
-model = to_device(ResNet(), device)
+model = ResNet(dataset)
+model = to_device(ResNet(dataset), device)
 evaluate(model, val_dl)
 
 # start training mode 
@@ -39,7 +43,7 @@ plot_losses(history)
 
 img, label = test_ds[17]
 plt.imshow(img.permute(1, 2, 0))
-print('Label:', dataset.classes[label], ', Predicted:', predict_image(img, model))
+print('Label:', dataset.classes[label], ', Predicted:', predict_image(dataset, img, model))
 
 loaded_model = model
 

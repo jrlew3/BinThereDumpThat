@@ -23,7 +23,7 @@
 # Import the system modules needed to run rpiMotorlib.py
 import sys
 import time
-import RPi.GPIO as GPIO
+import Jetson.GPIO as GPIO
 
 # ==================== CLASS SECTION ===============================
 
