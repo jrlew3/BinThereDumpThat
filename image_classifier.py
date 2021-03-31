@@ -2,6 +2,9 @@ from image_model import *
 from PIL import Image
 from pathlib import Path
 
+data_dir  = 'dataset/GarbageClassification/GarbageClassification'
+classes = os.listdir(data_dir)
+
 # apply transformations to the data set and import it 
 transformations = transforms.Compose([transforms.Resize((256, 256)), transforms.ToTensor()])
 dataset = ImageFolder(data_dir, transform = transformations)
@@ -22,9 +25,9 @@ train_dl = DeviceDataLoader(train_dl, device)
 val_dl = DeviceDataLoader(val_dl, device)
 to_device(model, device)
 
-model = ResNet()
+model = ResNet(dataset)
 
-model = to_device(ResNet(), device)
+model = to_device(ResNet(dataset), device)
 evaluate(model, val_dl)
 
 # start training mode 
