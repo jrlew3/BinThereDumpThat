@@ -5,7 +5,7 @@ import enum
 from prediction import * 
 
 # apply transformations to the data set and import it
-data_dir  = 'kaggle/Garbage classification/Garbage classification'
+data_dir  = 'kaggle/GarbageClassification/GarbageClassification'
 transformations = transforms.Compose([transforms.Resize((256, 256)), transforms.ToTensor()])
 dataset = ImageFolder(data_dir, transform = transformations)
 
@@ -29,6 +29,7 @@ val_dl = DeviceDataLoader(val_dl, device)
 
 model = ResNet(dataset)
 model = to_device(ResNet(dataset), device)
+print("Evaluating model")
 evaluate(model, val_dl)
 
 # start training mode 

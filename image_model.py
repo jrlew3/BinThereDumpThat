@@ -138,7 +138,7 @@ def plot_losses(history):
     plt.xlabel('epoch')
     plt.ylabel('loss')
     plt.legend(['Training', 'Validation'])
-    plt.title('Loss vs. No. of epochs');
+    plt.title('Loss vs. No. of epochs')
 
 # Visualizing predictions 
 def predict_image(dataset, img, model):
