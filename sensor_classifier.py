@@ -1,32 +1,21 @@
 import RPi.GPIO as GPIO
 import time
+from lib import pins
 
-# Pin Definitions
-metal_pin = 27  
-plastic_low_pin = 29 
-plastic_high_pin = 31 
-switch_pin = 33 
-
-GPIO.setmode(GPIO.BOARD)  
-channels = [metal_pin, plastic_low_pin, plastic_high_pin, switch_pin]
-GPIO.setup(channels, GPIO.IN)
 
 def predict():
-    print("Waiting for switch\n")
-    GPIO.wait_for_edge(switch_pin, GPIO.RISING)
-    print("Switch detected!\n")
-
-    time.sleep(0.5)
     print("Collecting sensor data\n")
-    metal_value = GPIO.input(metal_pin)
-    plastic_low_value = GPIO.input(plastic_low_pin)
-    plastic_high_value = GPIO.input(plastic_high_pin)
+    metal_value = GPIO.input(pins.metal_pin)
+    plastic_low_value = GPIO.input(pins.plastic_low_pin)
+    plastic_high_value = GPIO.input(pins.plastic_high_pin)
+    glass_low_value = GPIO.input(pins.glass_low_pin)
+    glass_high_value = GPIO.input(pins.glass_high_pin)
     
-    isMetal = metal_value == GPIO.LOW: 
-    isPlastic = plastic_low_value == GPIO.LOW and plastic_high_value == GPIO.HIGH: 
-    GPIO.cleanup()
+    isMetal = metal_value == GPIO.LOW
+    isPlastic = plastic_low_value == GPIO.LOW and plastic_high_value == GPIO.HIGH
+    isGlass = glass_low_value == GPIO.LOW and glass_high_value == GPIO.HIGH 
 
-    prediction = Prediction(isMetal, isPlastic)
+    prediction = Prediction(isMetal, isPlastic, isGlass)
     print("Prediction': ", prediction)
     return prediction
 

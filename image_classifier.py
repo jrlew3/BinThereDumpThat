@@ -1,51 +1,15 @@
-from image_model import * 
-from PIL import Image
-from pathlib import Path
-import enum
-from prediction import * 
+#!/usr/bin/python3
 
-# apply transformations to the data set and import it
-data_dir  = 'kaggle/GarbageClassification/GarbageClassification'
-transformations = transforms.Compose([transforms.Resize((256, 256)), transforms.ToTensor()])
-dataset = ImageFolder(data_dir, transform = transformations)
+import jetson.inference
+import jetson.utils
+import argparse
+import sys
 
-classes = os.listdir(data_dir)
-print(classes)
 
-# loading and splitting data 
-random_seed = 42
-torch.manual_seed(random_seed)
+def predict(net, img): 
+    # load image from camera
+    class_desc = net.GetClassDesc(class_idx)
 
-train_ds, val_ds, test_ds = random_split(dataset, [1593, 176, 758])
-batch_size = 32
+    print("Prediction: '{:s}' (class #{:d}) with {:f}% confidence".format(class_desc, class_idx, confidence * 100))
 
-train_dl = DataLoader(train_ds, batch_size, shuffle = True, num_workers = 4, pin_memory = True)
-val_dl = DataLoader(val_ds, batch_size*2, num_workers = 4, pin_memory = True)
-
-device = get_default_device()
-
-train_dl = DeviceDataLoader(train_dl, device)
-val_dl = DeviceDataLoader(val_dl, device)
-
-model = ResNet(dataset)
-model = to_device(ResNet(dataset), device)
-print("Evaluating model")
-evaluate(model, val_dl)
-
-# start training mode 
-num_epochs = 8
-opt_func = torch.optim.Adam
-lr = 5.5e-5
-
-history = fit(num_epochs, lr, model, train_dl, val_dl, opt_func)
-
-plot_accuracies(history)
-plot_losses(history)
-
-img, label = test_ds[17]
-plt.imshow(img.permute(1, 2, 0))
-print('Label:', dataset.classes[label], ', Predicted:', predict_image(dataset, img, model))
-
-loaded_model = model
-
-predict_external_image('cans.jpg', loaded_model)
+    return ImagePrediction(Material(class_idx), confidence) 
