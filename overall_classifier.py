@@ -44,6 +44,8 @@ def main():
         # Move motor 
         motor.move(stepper, isRecyclable)
     
+    GPIO.cleanup()
+    
 
 if __name__ == '__main__':
     main()
