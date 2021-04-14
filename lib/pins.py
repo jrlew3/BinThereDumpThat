@@ -7,7 +7,7 @@ plastic_high_pin = 6
 glass_low_pin = 13
 glass_high_pin = 19 
 metal_pin = 26 
-
+metal_pin2 = 23
  
 # Motor Pin Definitions pins
 GPIO_pins = (16, 20, 21)    # Microstep Resolution MS1-MS3 -> GPIO Pin
@@ -18,7 +18,8 @@ switch_pin = 22
 def setup():  
     # Setup pins    
     GPIO.setmode(GPIO.BCM)  
-    channels = [switch_pin, metal_pin, plastic_low_pin, plastic_high_pin, glass_low_pin, glass_high_pin]
+    channels = [switch_pin, metal_pin, metal_pin2, plastic_low_pin, plastic_high_pin, glass_low_pin, glass_high_pin]
+    GPIO.setwarnings(False)
     GPIO.setup(channels, GPIO.IN)
 
     # Initialize motor 
