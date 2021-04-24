@@ -1,1 +1,3 @@
 # BinThereDumpThat
+
+Our automatic trash sorter will be able to put items into one of two categories: recyclables and non-recyclables. Users won’t have to think about how to sort their trash; our sorter will do it for them! We will be using a camera and various sensors to distinguish between different types of recyclables and trash, and using a classification algorithm to sort each item. Users will be able to insert items one-by-one into our sorting platform and can watch it automatically move items into the correct bin. Our design goals include improving recycling accuracy rates and decreasing contamination rates so that more items can be properly recycled on CMU’s campus.
