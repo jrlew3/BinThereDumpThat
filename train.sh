@@ -3,7 +3,7 @@ NET=$JETSON/models/GarbageClassification
 DATASET=$JETSON/data/GarbageClassification
 IMAGENET=~/jetson-inference/build/aarch64/bin 
 
+cd $JETSON 
+python3 train.py -a=resnet50 --epochs=60 --model-dir=models/GarbageClassification data/GarbageClassification
 
-cd $IMAGENET
-./imagenet --model=$NET/resnet101.onnx --input_blob=input_0 --output_blob=output_0 --labels=$DATASET/labels.txt csi://0
 cd ~/BinThereDumpThat
